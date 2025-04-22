@@ -47,3 +47,10 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
+dependencies {
+    // 新增依赖
+    implementation("androidx.work:work-runtime-ktx:2.9.0")  // WorkManager
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")    // 网络请求
+    implementation("com.google.code.gson:gson:2.10.1")         // JSON解析
+    implementation("androidx.core:core-ktx:1.12.0")          // Kotlin扩展
+}
