@@ -1,0 +1,35 @@
+// app/src/main/java/net/micode/notes/data/NoteDatabase.kt
+@Database(entities = [Note::class, Category::class], version = 3)
+abstract class NoteDatabase : RoomDatabase() {
+    abstract fun noteDao(): NoteDao
+    abstract fun categoryDao(): CategoryDao
+
+    companion object {
+        // 添加分类表
+        @TypeConverters(NoteTypeConverters::class)
+        class NoteTypeConverters {
+            @TypeConverter
+            fun fromTimestamp(value: Long?): Date? = value?.let { Date(it) }
+
+            @TypeConverter
+            fun dateToTimestamp(date: Date?): Long? = date?.time
+        }
+    }
+}
+
+// 新增分类实体
+@Entity
+data class Category(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val name: String,
+    @ColorInt val color: Int
+)
+
+@Dao
+interface CategoryDao {
+    @Query("SELECT * FROM category")
+    fun getAll(): List<Category>
+
+    @Insert
+    fun insert(category: Category)
+}
